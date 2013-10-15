@@ -11,6 +11,15 @@ lay = sc.textFile('s3n://AKIAJFDTPC4XX2LVETGA:lJPMR8IqPw2rsVKmsSgniUd+cLhpItI42Z
 json_lay = lay.map(lambda x: json.loads(x)).cache()
 print 'json lay count', json_lay.count()
 
+pairs = json_lay.flatMap(lambda x: [x['sender']+term for term in x['text'].split()])
+print 'pairs', pairs.take(2)
+grouped = pairs.groupBy(lambda x: x)
+print 'grouped', grouped.take(2)
+counts = grouped.flatMap(lambda x: x[0], len(x[1]))
+print 'counts', counts.take(2)
+
+
+
 ################
 # all_words = json_lay.flatMap(lambda x: x['text'].split())
 # words = all_words.distinct()
