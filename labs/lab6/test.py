@@ -21,7 +21,7 @@ print 'to_list', to_list.take(5)
 sender_group = json_lay.groupBy(lambda x: x['sender'])
 senders = json_lay.map(lambda x: x['sender']).distinct()
 collected = senders.collect()
-print 'sender_list', sender_group.take(1)
+print 'sender_list', sender_group.take(3)
 #terms = json_lay.filter(lambda x: _ in x['text'].lower())
 #flat = terms.flatMap(lambda x: x)
 
