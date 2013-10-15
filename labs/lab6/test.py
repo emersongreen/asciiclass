@@ -18,7 +18,7 @@ to_list = json_lay.flatMap(lambda x: x['to'])
 print 'to_list', to_list.take(5)
 
 #grab senders
-senders = json_lay.flatMap(lambda x: _ in x['sender'])
+senders = json_lay.map(lambda x: x['sender'])
 collected = senders.collect()
 print 'sender_list', senders.take(5)
 #terms = json_lay.filter(lambda x: _ in x['text'].lower())
