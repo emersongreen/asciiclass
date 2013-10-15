@@ -15,7 +15,7 @@ filtered_lay = json_lay.filter(lambda x: 'chairman' in x['text'].lower())
 print 'lay filtered to chairman', filtered_lay.count()
 
 to_list = json_lay.flatMap(lambda x: x['to'])
-print 'to_list', to_list.count()
+print 'to_list', to_list.take(5)
 
 #grab senders
 senders = json_lay.flatMap(lambda x: x['sender'])
