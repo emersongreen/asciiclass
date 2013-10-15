@@ -14,7 +14,7 @@ print 'json lay count', json_lay.count()
 pairs = json_lay.flatMap(lambda x: [(x['sender'],term) for term in x['text'].split()])
 print 'pairs', pairs.take(2)
 counts = pairs.countByValue()
-print 'counts', counts.take(3)
+print 'counts', counts
 
 
 
