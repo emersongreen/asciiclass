@@ -20,6 +20,8 @@ print 'to_list', to_list.take(5)
 #grab senders
 #pairs  = json_lay.map(lambda x: {'term': term, 'author': x['sender']} for term in x['text'])
 pairs = json_lay.flatMap(lambda x: [(x['sender'],term) for term in x['text'].split()])
+groups = pairs.groupBy(lambda x: x)
+counts = pairs.map(lambda x: (x[0], len(x)))
 #sender_group = json_lay.groupBy(lambda x: x['sender'])
 #sender_group = json_lay.map(lambda x: x[])
 
@@ -27,7 +29,7 @@ pairs = json_lay.flatMap(lambda x: [(x['sender'],term) for term in x['text'].spl
 #sender_terms = 
 #senders = json_lay.map(lambda x: x['sender']).distinct()
 #collected = senders.collect()
-print 'pairs_list', pairs.take(3)
+print 'pairs_list', counts.take(3)
 #terms = json_lay.filter(lambda x: _ in x['text'].lower())
 #flat = terms.flatMap(lambda x: x)
 
