@@ -18,11 +18,10 @@ to_list = json_lay.flatMap(lambda x: x['to'])
 print 'to_list', to_list.count()
 
 #grab senders
-senders = lay.map(lambda x: x['sender'])
-print 'sender_list', senders
-terms = json_lay.filter(lambda x: _ in x['text'].lower())
-flat = terms.flatMap(lambda x: x)
-print 'terms', flat[0], flat[1], flat[2]
+senders = json_lay.map(lambda x: x['sender'])
+print 'sender_list', senders.count()
+#terms = json_lay.filter(lambda x: _ in x['text'].lower())
+#flat = terms.flatMap(lambda x: x)
 
 counted_values = to_list.countByValue()
 # Uncomment the next line to see a dictionary of every `to` mapped to
