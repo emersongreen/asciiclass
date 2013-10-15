@@ -19,7 +19,8 @@ print 'to_list', to_list.count()
 
 #grab senders
 senders = json_lay.flatMap(lambda x: x['sender'])
-print 'sender_list', senders.count()
+collected = senders.collect().sort()
+print 'sender_list', collected[0], collected[1], collected[2]
 #terms = json_lay.filter(lambda x: _ in x['text'].lower())
 #flat = terms.flatMap(lambda x: x)
 
