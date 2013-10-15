@@ -25,7 +25,7 @@ email_term_pairs = json_lay.flatMap(lambda x: [(term,x) for term in x['text'].sp
 group_email_term_pairs = email_term_pairs.groupBy(lambda x: x[0])
 #print 'group_email_term_pairs', group_email_term_pairs.take(1)
 
-dist = group_email_term_pairs.filter(lambda x: len(x[1]))
+dist = group_email_term_pairs.flatMap(lambda x: x[0],len(x[1]))
 print 'dist', dist.take(1)
 
 
