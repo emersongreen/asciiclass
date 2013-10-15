@@ -15,8 +15,8 @@ pairs = json_lay.flatMap(lambda x: [x['sender']+term for term in x['text'].split
 print 'pairs', pairs.take(2)
 grouped = pairs.groupBy(lambda x: x)
 print 'grouped', grouped.take(2)
-counts = grouped.flatMap(lambda x: [(x, len(y)) for (x, y) in grouped])
-print 'counts', counts.take(2)
+counts = [(x, len(y)) for (x, y) in grouped]
+print 'counts', counts[0], counts[1], counts[2]
 
 
 
