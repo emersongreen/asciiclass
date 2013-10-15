@@ -11,6 +11,24 @@ lay = sc.textFile('s3n://AKIAJFDTPC4XX2LVETGA:lJPMR8IqPw2rsVKmsSgniUd+cLhpItI42Z
 json_lay = lay.map(lambda x: json.loads(x)).cache()
 print 'json lay count', json_lay.count()
 
+################
+# all_words = json_lay.flatMap(lambda x: x['text'].split())
+# words = all_words.distinct()
+
+# for word in words.collect()]
+
+# json_lay.map(lambda x: 
+####################
+email_term_pairs = json_lay.flatMap(lambda x: [term,x for term in x['text'].split()])
+print 'email_term_pairs', email_term_pairs.take(1)
+
+group_email_term_pairs = email_term_pairs.groupBy(lambda x: x[0])
+print 'group_email_term_pairs', group_email_term_pairs.take(1)
+
+dist = group_email_term_pairs.filter(lambda x: len(x[1].distinct()))
+print 'dist', dist.take(1)
+
+
 filtered_lay = json_lay.filter(lambda x: 'chairman' in x['text'].lower())
 print 'lay filtered to chairman', filtered_lay.count()
 
@@ -19,10 +37,10 @@ print 'to_list', to_list.take(5)
 
 #grab senders
 #pairs  = json_lay.map(lambda x: {'term': term, 'author': x['sender']} for term in x['text'])
-pairs = json_lay.flatMap(lambda x: [(x['sender'],term) for term in x['text'].split()])
-groups = pairs.groupBy(lambda x: x)
-print groups.take(1)
-counts = pairs.map(lambda x: (x[0],len(x[1])))
+		# pairs = json_lay.flatMap(lambda x: [(x['sender'],term) for term in x['text'].split()])
+		# groups = pairs.groupBy(lambda x: x)
+		# print groups.take(1)
+		# counts = pairs.map(lambda x: (x[0],len(x[1])))
 #sender_group = json_lay.groupBy(lambda x: x['sender'])
 #sender_group = json_lay.map(lambda x: x[])
 
@@ -30,11 +48,11 @@ counts = pairs.map(lambda x: (x[0],len(x[1])))
 #sender_terms = 
 #senders = json_lay.map(lambda x: x['sender']).distinct()
 #collected = senders.collect()
-print 'pairs_list', counts.take(3)
+		# print 'pairs_list', counts.take(3)
 #terms = json_lay.filter(lambda x: _ in x['text'].lower())
 #flat = terms.flatMap(lambda x: x)
 
-counted_values = to_list.countByValue()
+		# counted_values = to_list.countByValue()
 # Uncomment the next line to see a dictionary of every `to` mapped to
 # the number of times it appeared.
 #print 'counted_values', counted_values
