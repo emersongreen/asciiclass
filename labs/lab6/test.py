@@ -19,7 +19,7 @@ print 'to_list', to_list.take(5)
 
 #grab senders
 #pairs  = json_lay.map(lambda x: {'term': term, 'author': x['sender']} for term in x['text'])
-pairs = json_lay.map(lambda x: [(x['sender'],term) for term in x['text'].split()])
+pairs = json_lay.flatMap(lambda x: [(x['sender'],term) for term in x['text'].split()])
 #sender_group = json_lay.groupBy(lambda x: x['sender'])
 #sender_group = json_lay.map(lambda x: x[])
 
