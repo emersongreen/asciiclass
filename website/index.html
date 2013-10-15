@@ -1,0 +1,1245 @@
+<html>
+
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap --> 
+    <meta charset="utf-8">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="dateformat.js"></script>
+    <style type="text/css">
+      html {
+        overflow-y:scroll;
+      }
+
+body,tr {
+          text-align: left;
+          font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+          font-size: 15px;
+          font-weight: 300;
+          background-color: #fdfdfd;
+      }
+
+body {
+  padding-top: 45px;
+}
+body tr.current {
+  border: 2px solid rgb(53, 150, 189);
+}
+
+ body tr td.nextclass {
+  padding: 0;
+  border: 2px solid rgb(53, 150, 189);
+}
+body tr td.nextclass div {
+  font-size: 18px;
+  text-align: center;
+  background: rgb(53, 150, 189);
+  color: white;
+  padding: 3px;
+}
+
+a[name] {
+  padding-top: 55px;
+  margin-top: -55px;
+  display: inline-block; /* required for webkit browsers */
+}
+
+      </style>
+
+
+<script type="text/javascript">
+    function update_dates() {
+        var holidays = [ '10/15/13','11/28/13'];
+        var curClass = new Date(2013,8,5,15,0,0,0);
+        var lastClass = new Date(2013,11,11,15,0,0,0);        
+        var gap = 5;
+        var spans = document.getElementsByClassName("date");
+        var lastClassWasBefore = true;
+        for (i = 0; i < spans.length; i++) {
+            var dayString = dateFormat(curClass,'m/d/yy');         
+            var holiday = false;   
+            do {
+                holiday = false;
+                for (j = 0; j < holidays.length; j++) {
+                    if (holidays[j] == dayString)
+                        holiday = true;
+                }
+                if (holiday) {
+                    curClass = new Date(curClass.getTime() + (24 * 60 * 60 * gap * 1000));
+                    if (gap == 5) { gap = 2; } else { gap = 5; }
+                    dayString = dateFormat(curClass,'m/d/yy');
+                }
+            } while (holiday);
+            var now = new Date();
+            spans[i].innerHTML = dayString;
+            if (lastClassWasBefore && curClass.getTime() > new Date()) { // this is the next class
+                var tr = $(spans[i]).parent().parent().parent();
+                tr.addClass("current");
+                tr.before("<tr><td class='nextclass' colspan=5><div><a name='schedule'></a>Next Class!</div></td></tr>");
+                lastClassWasBefore = false;
+            }
+            curClass = new Date(curClass.getTime() + (24 * 60 * 60 * gap * 1000));
+            if (gap == 5) { gap = 2; } else { gap = 5; }
+        }
+    }
+
+    function page_onload() {
+        update_dates();
+    }</script>
+
+      
+<title>6.885: From ASCII to Answers:  Advanced Topics in Data Processing</title>
+</head>
+<body onLoad="page_onload()">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">6.885 Fall 2013</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#staff">Staff</a></li>
+              <li><a href="#grading">Grading</a></li>
+              <li><a href="#links">Links</a></li>
+              <li><a href="#schedule">Schedule</a></li>
+
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+<div class="container">
+
+<h2>From ASCII to Answers:  Advanced Topics in Data Processing</h2>
+
+
+<div class="row">
+  <div class="span2">
+<b>Units: </b>
+</div>
+<div class="span8"><p valign="bottom">3-0-9 (Grad H) 
+</div>
+</div>
+<div class="row">
+<div class="span2">
+<b>Instructors:</b>
+</div>
+<div class="span8"><a name="staff"></a><p valign="bottom">Samuel Madden (madden@csail.mit.edu)  <br> Amol Deshpande (amol@cs.umd.edu) <br> Adam Marcus (marcua@marcua.net) <br> Eugene Wu (eugenewu@mit.edu) </div>
+</div>
+
+<div class="row">
+  <div class="span2">
+<b>Meetings:</b>
+</div>
+<div class="span8"><p valign="bottom">TR1-2:30, room 4-231  (First Meeting Thursday, 9/5)
+</div>
+</div>
+
+<div class="row">
+<div class="span2"><b>Description:</b></div>
+
+<div class="span8"> This class will survey techniques and systems for ingesting, efficiently processing, analyzing, and visualizing large data sets. Topics will include data cleaning, data integration, scalable systems (relational databases, NoSQL, Hadoop, etc.), analytics (data cubes, scalable statistics and machine learning), and scalable visualization of large data sets.  The goal of the class is to gain working experience along with in-depth discussions of the topics covered.  Students should have a background in database or distributed systems (6.814/6.830 or 6.824 or permission of instructor). There will be a semester-long project and paper, and hands-on labs involving using real systems. There will be no exams, and grading will be based largely on class participation and whether assignments are completed.
+ 
+</div>
+</div>
+
+<br>
+<div class="row">
+<div class="span2"><a name="grading"></a><b>Grading:</b></div>
+<div class="span8"> Grading will be based on class participation, successful completion of labs, and a final project, as follows:
+<br><br>
+<table class="table table-striped"><tr><td>Participation<td>33%
+<tr><td>Homeworks<td>33%
+<tr><td><a href="final-proj.html">Final Project</a><td>33%
+</table>
+<br>
+Details about the final project <a href="final-proj.html">are available here.</a>
+<br><br>
+For homeworks, you allowed 5 penalty free late days to use throughout the semester.  One late day equals one 24 hour period after the due date of the assignment.  Once you have used your late days, there will be a 20% penalty for each day an assignment is late.  You do not need to explictly declare the use of late days;  we will assign them to you in a way that is optimal for your grade when different assignments are worth different numbers of points.   Late days may not be used for the final project.
+</div>
+</div>
+
+<p>
+<div class="row">
+    <div class="span2"><a name="links"></a><b>Useful links:</b>
+</div>
+    <div class="span8">Hand in assignments on <a href="http://stellar.mit.edu/S/course/6/fa13/6.885/">Stellar</a>.
+<br>
+Discuss the class on <a href="https://piazza.com/class/hl6u4m7ft8n373">Piazza</a>.
+<br>
+    <a href="mailto:6885-staff@mit.edu">Email the staff</a>.
+<br> 
+    Check out <a href="https://github.com/mitdbg/asciiclass">the course github repository</a> (including lecture notes and slides!).
+</div>
+
+</div>
+
+
+<br>
+<h3> Class Schedule </h3>
+<div class="container">
+<table class="table table-striped" >
+<thead>
+    <tr >
+      <th >
+	<p >
+	  <span >Date
+	  </span>
+	</p>
+      </th>
+
+      <th >
+	<p >
+	  <span >Topic
+	  </span>
+	</p>
+      </th>
+      <th >
+	<p >
+	  <span >Objectives
+	  </span>
+	</p>
+      </th>
+      <th >
+	<p >
+    <span >Readings <br> <i>To be read before class</i>
+	  </span>
+	</p>
+      </th>
+      <th >
+	<p >
+	  <span >Assignments / Notes</span>
+	</p>
+      </th>
+    </tr>
+</thead>
+  <tbody>
+    <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+        <td>
+	<p >
+	  <span >L1: Class Intro;
+	  </span>
+	  <span >Data Modeling and Representation Overview
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Schemas / structure are valuable (even if it not in relational world); case studies and class overview
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+	<p >
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+       <span > Notes: <a href="https://github.com/mitdbg/asciiclass/tree/master/lectures/lec1">github</a> <br>
+
+    <span > Assigned: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab1">Lab 1</a>
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L2: Alternative Data Models
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Understand different data models, and what they are good for. &nbsp;Semi-structured storage, arrays, graphs, etc.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+        <span >
+            <a href="http://pages.cs.wisc.edu/~cs764-1/datamodel.pdf">What goes around comes around</a> <br>
+	    Section 3 of <a  href="http://vldb.org/pvldb/vol5/p1771_georgelee_vldb2012.pdf">Unified twitter logging
+</a> (you may also want to skim the intro to get the motivation)
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+       <span > Notes: <a href="https://github.com/mitdbg/asciiclass/tree/master/lectures/lec2">github</a> <br>
+
+    <span > Due: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab1">Lab 1</a> <br>
+    <span > Assigned: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab2">Lab 2</a>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L3: Data Cleaning and Integration #1
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Text -&gt; Relations/Structured Data
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+        Play with <span> <a href="http://vis.stanford.edu/papers/wrangler">Data Wrangler</a>.
+        Read the <a href="http://vis.stanford.edu/files/2011-Wrangler-CHI.pdf">PDF</a>.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+    <span >
+        <span > Notes: <a href="https://github.com/mitdbg/asciiclass/tree/master/lectures/lec3">github</a> <br>
+	  <span >Lab 3 (to be posted on Tuesday) will involve sed/awk and Wrangling a few datasets
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+    <span >L4: Data Cleaning and Integration #2  (Stonebraker)
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Overview: &nbsp;A ?= A&rsquo;
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	    <a  href="https://cs.uwaterloo.ca/~ilyas/papers/StonebrakerCIDR2013.pdf">Data Curation at Scale: The Data Tamer System
+	    </a>
+	  </span>
+	</p>
+	<p >
+	  <span >Optionally, you may want to read: <a href="http://i.stanford.edu/~anishds/publications/sigmod12/modi255i-dassarma.pdf">Finding Related Tables</a> and <a href="http://repository.upenn.edu/cgi/viewcontent.cgi?article=1034&context=db_research">Crossing the Structure Chasm</a>.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+        Due: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab2">Lab 2</a><br>
+        Out: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab3">Lab 3</a><br>
+<!--Try data integration tools (e.g., data tamer); &nbsp;Google Knowledge Graph -->
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+    <span >L5: Data Cleaning and Integration #3 (Adam Marcus)
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Combining Info From Multiple Sources (Truthfulness, Veracity, etc.)
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Read <a href="http://www.vldb.org/pvldb/vol6/p97-li.pdf">Truth Finding on the Deep Web</a>
+	  </span>
+	</p>
+      </td>
+      <td >
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L6: Data Cleaning and Integration #4
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Data Integration Techniques -- building a simple integration system
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span ><a href="http://www.umiacs.umd.edu/~getoor/Tutorials/ER_VLDB2012.pdf">Data Integration Tutorial Slides</a> Getoor and Machanavajjhala, VLDB 2012. 
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+        Due: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab3">Lab 3</a> <br>
+        Due: <a href="final-proj.html">Final Project Teams</a><br>
+        Out: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab4">Lab 4</a> <br>
+
+	  </span>
+
+        </p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L7: MapReduce
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Split up larger computations into map and reduce. &nbsp;Learn to connect multiple MapReduce phases.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+                Read:  <a href="http://cacm.acm.org/magazines/2010/1/55744-mapreduce-a-flexible-data-processing-tool/fulltext">MapReduce: A Flexible Data Processing Tool</a> by Dean and Ghemawat, and <a href="http://cacm.acm.org/blogs/blog-cacm/149074-possible-hadoop-trajectories/fulltext">Possible Hadoop Trajectories</a> by Stonebraker and Kepner.
+<p>
+        If you are not familiar with MapReduce you should read:
+	    <a  href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en/us/archive/mapreduce-osdi04.pdf">the original MapReduce paper
+	    </a>
+        (We will not cover this paper in detail so you do not need to read it again if you understand the basic MapReduce model.)
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span > <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab5">Lab 5</a> involes implementing some simple tasks with MapReduce.
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L8: Column-oriented Databases
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Perform queries like sums, counts, and averages over huge datasets in seconds using Column Oriented DBs.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	    <a  href="http://vldb.org/pvldb/vol5/p1790_andrewlamb_vldb2012.pdf">The Vertica Analytic Database: C-Store 7 Years Later
+	    </a>
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+                
+	  <span >Due: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab4">Lab 4</a> <br>
+Out: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab5">Lab 5</a>
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L9: Data Cubes + Materialized views
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Frequently, your dataset is so large that asking a question of it in real-time isn&rsquo;t possible. &nbsp;Cubes and materialized views allow you to precompute the answers to questions so that you have them when you need them later.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	   Read <a  href="http://research.microsoft.com/pubs/69578/tr-95-22.pdf">the data cube paper</a>;  pay attention to the algebraic vs holistic aggregate distinction.
+	    </a>
+        <p>
+        Also read Section 1 and 2.1 of the <a href="http://vldb.org/pvldb/vol5/p968_yanifahmad_vldb2012.pdf">DBToaster paper</a> for a review of maintaining views.  (You may read the rest of the paper but it is quite technical.)
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+
+         <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L10: Approximate query processing 
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Sometimes, you don&rsquo;t actually need a perfect answer, and statistics can make it easy to get very close. &nbsp;We&rsquo;ll cover techniques like sampling, sketching, and generating histograms.
+	  </span>
+	  <span >&nbsp;
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+
+	    <a  href="https://en.wikipedia.org/wiki/Bloom_filter">Bloom filters
+	    </a>
+	  </span>
+	  <span >,
+	  </span>
+	  <span >
+	    <a  href="https://en.wikipedia.org/wiki/Reservoir_sampling">Reservoir sampling
+	    </a>
+	  </span>
+	  <span >,
+	  </span>
+	  <span >
+	    <a  href="http://blog.aggregateknowledge.com/tag/count-min-sketch/">Count-min Sketches
+	    </a>
+
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+                        Due: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab5">Lab 5</a>
+
+<!--We&rsquo;ll give you ten gigabytes of data. &nbsp;You will use less than a megabyte of data to tell us approximately which items are in it, returns a 1000 representaive items without knowing how large the set is, and tell us how frequently the items in the set appear.-->
+	  </span>
+	</p>
+      </td>
+    </tr>
+         <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L11: Systems for machine learning on big data  (Tyson Condie)
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >What are the challenges of running ML algorithms on Big Data, what are frameworks that have been proposed, how are they better than existing systems (e.g., Relational DBs  + UDFs/UDAs).
+	  </span>
+	  <span >&nbsp;
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+        Read the <a href="2011-NIPS-BigLearn-Scalops.pdf">Scalops</a> paper.
+        </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+       Out: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab6">Lab 6</a>
+	  </span>
+	</p>
+      </td>
+    </tr>
+<!--
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L12: Computation inside and outside the database  
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Traditionally, people use tools like databases to store/retrieve/ask basic questions (sums, counts, averages, etc.) of data. &nbsp;They use tools like R/numpy/Julia to do deeper exploration of the data. &nbsp;It turns out that you can do deep computation inside the database, and ask high-level questions of data outside of the database, and we&rsquo;ll show you how.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >&nbsp;
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	    <a  href="http://doc.madlib.net/v1.0/group__grp__linreg.html">Linear regression in postgres using MADLIB
+	    </a>
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+	<p >
+	  <span >
+	    <a  href="https://github.com/amplab/shark/wiki/Running-Shark-on-EC2">Query json files in shark
+	    </a>
+	  </span>
+	</p>
+      </td>
+    </tr>
+    -->
+    <tr style="color:gray;"><td>10/15/13<td colspan=4><b> HOLIDAY: VETERANS DAY </b></tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L12:
+	  </span>
+	  <span >Iterative Algorithms (Carlo Curino)
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Iterative algorithms require you to do several passes over your data. &nbsp;Tools like MapReduce are not as useful for this because both their programming model and execution model aren&rsquo;t designed around iteration.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	    <a  href="http://www.cs.berkeley.edu/~matei/papers/2010/hotcloud_spark.pdf">Spark paper
+	    </a>
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span > Due: <a href="https://github.com/mitdbg/asciiclass/tree/master/labs/lab6">Lab 6</a>
+
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L13: Stream data processing
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Sometimes your datasets are both large and not static (think Twitter, or the stock market): as data streams in, you have to compute information on it without knowing when the stream will end.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	    <a  href="http://cs.brown.edu/research/pubs/pdfs/2003/Abadi-2003-ANM.pdf">Aurora paper
+	    </a>
+	  </span>
+	</p>
+	<p >
+	  <span >Storm paper?
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	    <a  href="https://github.com/nathanmarz/storm-deploy/wiki">Deploy Storm
+	    </a>
+	  </span>
+	  <span >&nbsp;and then use either
+	  </span>
+	  <span >
+	    <a  href="https://github.com/nathanmarz/storm/wiki/Tutorial">Storm
+	    </a>
+	  </span>
+	  <span >&nbsp;or
+	  </span>
+	  <span >
+	    <a  href="https://github.com/nathanmarz/storm/wiki/Trident-tutorial">Trident
+	    </a>
+	  </span>
+	  <span >&nbsp;to connect to the Twitter streaming API and calculate the most retweeted tweets and identify trending topics.
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L14: Graph processing
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Lots of data is graphical, be it the world wide web or social networks. &nbsp;Graph processing systems help you run algorithms to process these graphs.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	    <a  href="http://kowshik.github.io/JPregel/pregel_paper.pdf">Pregel paper
+	    </a>
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >&nbsp;
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L15: Student Data Case Studies
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span > <!-- Scaling machines learning algorithms is still an open problem. &nbsp;Map-reduce happens to scale well, and Gradient Descent methods are currently the most understood algorithm to run scalably on map-reduce frameworks to solve problems such as SVMs. -->
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span > <!-- Jimmy Lin Paper (MR as a hammer)-->
+	  </span>
+	</p>
+	<p >
+	  <span > <!-- Hogwild for extra credit. &nbsp;It&rsquo;s probably too math dense.-->
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+        <!--
+	  <span >Implement IGD for SVM
+	  </span>
+	  <span >&nbsp;on spark
+	  </span>
+        -->
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L16: Scalable Algos #2
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+       Database techniques may be able to further speed up machine learning techniques by embedding them within the DBMS, declaratively specifying the machine learning algorithms and parameters and letting the DBMS optimize the parameters, or implementing the algortihms on map-reduce systems.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Daisy&rsquo;s paper, MLBase?
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Compare and contrast runnning in-database ML (madlib) vs out-of-database ML.
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L17: Visualizations
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Visualizations map summary statistics of your data into the visual domain. &nbsp;We will have a crash course on typical summary statistics, and a comparison of declarative vs painting based models of visualizations.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Intro to stats (summary statistics: medians, averages, clt, etc.)
+	  </span>
+	</p>
+	<p >
+	  <span >matplotlib vs ggplot2/d3
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Make plots using d3 and matplotlib and compare the differences. &nbsp;Then try gg/ggplot2
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L18: Scalable Visualizations #1
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >We&rsquo;ve discussing scaling algorithms for faster data cleaning and processing. &nbsp;How do we scale visualizations to encode more data (dimensions, hierarchical, # tuples) in the same space? &nbsp;
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >High density visualizations, Semantic Zoom, PCA family
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >TBD
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L19: Scalable Visualizations #2 (Amanda Cox -- NYTimes guest lecturer)
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >Interactive _statistical_ visualization require sub 100ms interaction times to process user inputs, re-compute analytic queries, and render the resulting data with low latency. &nbsp;We will review some modern techniques using GPUs.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >MapD
+	  </span>
+	</p>
+	<p >
+	  <span >Heer&rsquo;s datavore or his&rsquo; postdoc&rsquo;s recent thing
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >TBD
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L20: Analytics in a dangerous (adversarial) world (Stephen Tu)
+        </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+        More and more sensitive data is being collected and processed by analysts. How do we protect user data from privacy breaches? We'll study several adversarial models and talk about a few solutions explored by the research community.
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L21: TBD
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L22: TBD
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L23: TBD
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+    <tr style="color:gray;"><td>11/28/13<td colspan=4><b> HOLIDAY: THANKSGIVING </b></tr>
+
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L24: TBD
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+
+         <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L25: TBD
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+
+    
+     <tr >
+      <td >
+	<p >
+	  <span class="date">
+	  </span>
+        </td>
+      <td >
+	<p >
+	  <span >L26: Conclusion
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+      <td >
+	<p >
+	  <span >
+	  </span>
+	</p>
+      </td>
+    </tr>
+
+
+  </tbody>
+</table>
+
+
+</div>
+</body>
+</html>

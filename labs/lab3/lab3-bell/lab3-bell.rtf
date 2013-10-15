@@ -1,0 +1,141 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf390
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red26\green26\blue26;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 Brian Bell\
+6.885 Lab 3\
+\
+
+\b\fs36 synsets.txt
+\b0\fs24 \
+I found that there were 198,771 unique words in the dataset using the DataWrangler script.\
+\
+
+\b\fs36 worldcup.txt
+\b0\fs24 \
+1. How often each country has won the world cup:\
+\pard\pardeftab720
+
+\f1\fs26 \cf2 Brazil 5\
+Italy 4\
+Germany 3\
+Argentina 2\
+Uruguay 2\
+France 1\
+England 1\
+Spain 1\
+Netherlands 0\
+TCH 0\
+Hungary 0
+\f0\fs24 \cf0 \
+
+\f1\fs26 \cf2 Poland 0\
+Austria 0\
+Portugal 0\
+USA 0\
+Chile 0\
+Croatia 0\
+Turkey 0\
+Yugo 0\
+URS 0\
+Belarus 0\
+Bulgaria 0\
+Korea 0\
+\
+
+\b\fs36 Command to run script to parse synsets.txt:
+\b0\fs26 \
+cat synsets.txt | sed 's/^[0-9]*,//g' | awk -f synsets_parse.awk -F ','\
+\
+
+\b\fs36 My code for parsing sunsets.txt:
+\b0\fs26 \
+#!/bin/awk -f\
+\{\
+	c=split($1,a," ")\
+\}\
+\{\
+	d=split($2,b,"; ")\
+\}\
+\{\
+	for (x=1; x<=c; x++)\{\
+		for(y=1; y<=d; y++)\{\
+			print(a[x] ", " b[y]);\
+			\}\
+	\}\
+\}\
+\
+
+\b\fs36 Command to count words/lines:
+\b0\fs26 \
+cat synsets.txt | sed 's/^[0-9]*,//g' | awk -f synsets_parse.awk -F ','| wc -l\
+The result is 198,714\
+\
+
+\b\fs36 Command to run script to parse world cup.txt:
+\b0\fs26 \
+cat worldcup.txt | sed 's/\\[\\[\\([0-9]*\\)[^]]*\\]\\]/\\1/g; s/.*fb|\\([A-Za-z]*\\)\}\}/\\1/g; s/<sup><\\/sup>//g; s/|bgcolor[^|]*//g; s/|align=center[^|]*//g' | sed 1d | sed 's/[0-9] (//g' | sed 's/\\([0-9]*\\))/\\1/g' | awk -f worldcup_parse.awk\
+\
+
+\b\fs36 My code for parsing worldcup.txt:
+\b0\fs26 \
+#!/bin/awk -f\
+\
+BEGIN \{ \
+	RS = "\\-" ; FS = "\\|"\
+\}\
+\{\
+	gsub(/\\n/,"",$2);\
+	gsub(/\\n/,"",$3);\
+	gsub(/\\n/,"",$4);\
+	gsub(/\\n/,"",$5);\
+	y=split($1,z,"\\n");\
+	e=split($2,a,", ");\
+	f=split($3,b,", ");\
+	g=split($4,c,", ");\
+	h=split($5,d,", ");\
+\}\
+\{\
+           for (x=1; x<=e; x++)\{\
+           		if(a[x] ~ /[0-9]+/)\{\
+					print(z[2]","a[x]",1")\
+				\}\
+			\}\
+			for (x=1; x<=f; x++)\{\
+				if(b[x] ~ /[0-9]+/)\{\
+					print(z[2]","b[x]",2")\
+				\}\
+			\}\
+			for (x=1; x<=g; x++)\{\
+				if(c[x] ~ /[0-9]+/)\{\
+					print(z[2]","c[x]",3")\
+				\}	\
+			\}\
+			for (x=1; x<=h; x++)\{\
+				if(d[x] ~ /[0-9]+/)\{\
+					print(z[2]","d[x]",4")\
+				\}\
+			\}\
+\
+\}\
+\
+Data Wrangler is great for quickly visualizing a dataset, and even for testing a particular strategy for wrangling the data. Having done the DataWrangler part of the lab ensured that I fully understood the result I was trying to produce and some of the steps necessary to clean up the data properly. As for cons, DataWrangler is still too limited, buggy and too reliant on you selecting or clicking in just the right spots to get the suggestions you desire. \
+\
+I'd like to see DataWrangler incorporate per-line replacement in a more straightforward fashion, as well as enable users to reference things that were matched, similar to the \\(\\) functionality in sed. Those references make cleaning up the data and separating it from the distracting elements really easy, instead of performing 5 different Cut commands to slice out exactly what you want.\
+\
+
+\b\fs36 Feedback on the lab:
+\b0\fs26 \
+This lab wasn't too difficult, but the DataWrangler section was exasperating. I felt like I was wasting my time. Rather than learning anything, I felt like I just spent a few hours playing around in a very buggy and frustrating interface. It crashed several times as well, and then when I finally exported my script, it didn't run and I had to retrace my steps. Given that I'm already used to regex and a shell-script interface, I feel like I appreciated how straightforward and no-nonsense the sed/awk tools were. \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}
