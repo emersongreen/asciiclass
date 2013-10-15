@@ -19,7 +19,7 @@ print 'json lay count', json_lay.count()
 
 # json_lay.map(lambda x: 
 ####################
-email_term_pairs = json_lay.flatMap(lambda x: [term,x for term in x['text'].split()])
+email_term_pairs = json_lay.flatMap(lambda x: [(term,x) for term in x['text'].split()])
 print 'email_term_pairs', email_term_pairs.take(1)
 
 group_email_term_pairs = email_term_pairs.groupBy(lambda x: x[0])
