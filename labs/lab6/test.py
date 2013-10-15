@@ -16,7 +16,7 @@ print 'pairs', pairs.take(2)
 grouped = pairs.groupBy(lambda x: x)
 print 'grouped', grouped.take(2)
 counts = [(x, len(y)) for (x, y) in grouped]
-print 'counts', counts[0], counts[1], counts[2]
+print 'counts', counts
 
 
 
