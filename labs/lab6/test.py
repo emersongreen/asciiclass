@@ -23,7 +23,7 @@ email_term_pairs_distinct = email_term_pairs.distinct()
 email_pairs_grouped = email_term_pairs_distinct.groupBy(lambda x: x[0])
 #idf_counts = [(x, len(y)) for (x, y) in email_pairs_grouped.collect()]
 #para_idf_counts = sc.parallelize(idf_counts)
-print 'idf_counts', para_idf_counts.take(5)
+#print 'idf_counts', para_idf_counts.take(5)
 print email_pairs_grouped.collect()[:4]
 
 # How to use a join to combine two datasets.
