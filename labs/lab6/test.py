@@ -23,20 +23,20 @@ print 'tf_counts', tf_out.take(10)
 # Compute IDF
 email_term_pairs = json_lay.flatMap(lambda x: [(term.lower(), hashlib.sha224(x['text']).hexdigest()) for term in x['text'].split()])
 email_term_pairs_distinct = email_term_pairs.distinct()
-email_pairs_grouped = email_term_pairs_distinct.groupBy(lambda x: x[0])
+email_pairs_grouped = email_term_pairs_distinct.groupBy(lambda x: x[0], numPartitions=500)
 numdocs = json_lay.count()
 idf_out = email_pairs_grouped.map(lambda x: ( x[0], math.log(numdocs/ float(len(x[1])))))
 print 'idf_counts', idf_out.take(10)
 
 # Join the two RDD's and compute score
-join_ifidf = tf_out.join(idf_out)
+join_ifidf = tf_out.join(idf_out, numPartitions=500)
 join_map = join_ifidf.map(lambda x: ( (x[0], x[1][0][0], x[1][0][1]*x[1][1] )))
 print 'join', join_map.take(10)
 
 # Sender disambiguation
 
 filter_ken = join_map.filter(lambda x: re.match(r'(kenneth|lay).*', x[1]))
-print 'ken', filter_ken.collect()[:5]
+print 'ken', sorted(filter_ken.collect(), key=lambda x: x[2], reverse=True)[:10]
 
 #filter_jeff = join_map.filter(lambda x: re.match(r'(jeff|skilling).*', x[1]))
 #filter_andrew = join_map.filter(lambda x: re.match(r'(andrew|fastow).*', x[1]))
