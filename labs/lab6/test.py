@@ -31,6 +31,10 @@ idf_out = email_pairs_grouped.map(lambda x: ( x[0], math.log(countDocs/ float(le
 print 'idf_counts', idf_out.take(10)
 #print email_pairs_grouped.collect()[:4]
 
+join_ifidf = tf_out.join(idf_out)
+print 'join', join_ifidf.take(10)
+#get_scores = join_ifidf.map(lambda x: ())
+
 # How to use a join to combine two datasets.
 frequencies = sc.parallelize([('a', 2), ('the', 3)])
 inverted_index = sc.parallelize([('a', ('doc1', 5)), ('the', ('doc1', 6)), ('cats', ('doc2', 1)), ('the', ('doc2', 2))])
