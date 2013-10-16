@@ -16,7 +16,8 @@ print 'pairs', pairs.take(2)
 grouped = pairs.groupBy(lambda x: x)
 print 'grouped', grouped.take(2)
 counts = [(x, len(y)) for (x, y) in grouped.collect()]
-print 'counts', counts
+para_counts = sc.parallelize(counts)
+print 'counts', para_counts.take(5)
 
 
 
