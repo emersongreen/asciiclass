@@ -3,6 +3,7 @@ from pyspark import SparkContext
 import json
 import time
 import hashlib
+import math
 
 print 'loading'
 sc = SparkContext("spark://ec2-54-200-174-121.us-west-2.compute.amazonaws.com:7077", "Simple App")
