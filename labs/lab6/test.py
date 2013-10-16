@@ -33,7 +33,8 @@ print 'idf_counts', idf_out.take(10)
 #print email_pairs_grouped.collect()[:4]
 
 join_ifidf = tf_out.join(idf_out)
-print 'join', join_ifidf.take(10)
+join_map = join_ifidf.map(lambda x: ( (x[0], x[1][0][0], x[1][0][1]*x[1][1] )))
+print 'join', join_map.take(10)
 #get_scores = join_ifidf.map(lambda x: ())
 
 # How to use a join to combine two datasets.
