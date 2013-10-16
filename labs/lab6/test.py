@@ -22,7 +22,7 @@ m = hashlib.md5()
 email_term_pairs = json_lay.flatMap(lambda x: [(term, hashlib.sha224(x['text']).hexdigest()) for term in x['text'].split()])
 email_term_pairs_distinct = email_term_pairs.distinct()
 email_pairs_grouped = email_term_pairs_distinct.groupBy(lambda x: x[0])
-idf_counts = email_pairs_grouped.flatMap(lambda group: [(x, len(y)) for (x, y) in group])
+idf_counts = email_pairs_grouped.flatMap(lambda x: (x[0], len(x[1])))
 #para_idf_counts = sc.parallelize(idf_counts)
 print 'idf_counts', idf_counts.take(1)
 #print email_pairs_grouped.collect()[:4]
