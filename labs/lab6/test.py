@@ -12,11 +12,13 @@ lay = sc.textFile('s3n://AKIAJFDTPC4XX2LVETGA:lJPMR8IqPw2rsVKmsSgniUd+cLhpItI42Z
 json_lay = lay.map(lambda x: json.loads(x)).cache()
 #print 'json lay count', json_lay.count()
 
-pairs = json_lay.flatMap(lambda x: [(term, x['sender']) for term in x['text'].split()])
-grouped = pairs.groupBy(lambda x: x)
-counts = [(x[0], len(y)) for (x, y) in grouped.collect()]
-para_counts = sc.parallelize(counts)
-print 'tf_counts', para_counts.take(10)
+pairs = json_lay.flatMap(lambda x: [(x['sender'], term.lower()) for term in x['text'].split()]).countByValue().items()
+pair_map = sc.parallelize(pairs)
+tf_out = pair_map.map(lambda x: ( x[0][1], (x[0][0], x[1])))
+#grouped = pairs.groupBy(lambda x: x)
+#counts = [(x, len(y)) for (x, y) in grouped.collect()]
+#para_counts = sc.parallelize(counts)
+print 'tf_counts', tf_out.take(10)
 
 email_term_pairs = json_lay.flatMap(lambda x: [(term.lower(), hashlib.sha224(x['text']).hexdigest()) for term in x['text'].split()])
 email_term_pairs_distinct = email_term_pairs.distinct()
