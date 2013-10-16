@@ -12,9 +12,9 @@ lay = sc.textFile('s3n://AKIAJFDTPC4XX2LVETGA:lJPMR8IqPw2rsVKmsSgniUd+cLhpItI42Z
 json_lay = lay.map(lambda x: json.loads(x)).cache()
 #print 'json lay count', json_lay.count()
 
-pairs = json_lay.flatMap(lambda x: [(x['sender'],term) for term in x['text'].split()])
+pairs = json_lay.flatMap(lambda x: [(term, x['sender']) for term in x['text'].split()])
 grouped = pairs.groupBy(lambda x: x)
-counts = [(x, len(y)) for (x, y) in grouped.collect()]
+counts = [(x[0], len(y)) for (x, y) in grouped.collect()]
 para_counts = sc.parallelize(counts)
 print 'tf_counts', para_counts.take(10)
 
