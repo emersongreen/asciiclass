@@ -18,9 +18,9 @@ para_counts = sc.parallelize(counts)
 print 'tf_counts', para_counts.take(5)
 
 
-email_term_pairs = json_lay.flatMap(lambda x: [{'term': term, 'text': x['text']} for term in x['text'].split()])
+email_term_pairs = json_lay.flatMap(lambda x: [(term, x['text']) for term in x['text'].split()])
 email_term_pairs_distinct = email_term_pairs.distinct()
-email_pairs_grouped = email_term_pairs_distinct.groupBy(lambda x: x['term'])
+email_pairs_grouped = email_term_pairs_distinct.groupBy(lambda x: x[0])
 idf_counts = [(x, len(y)) for (x, y) in email_pairs_grouped.collect()]
 para_idf_counts = sc.parallelize(idf_counts)
 print 'idf_counts', para_idf_counts.take(5)
