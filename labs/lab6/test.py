@@ -2,6 +2,7 @@ from pyspark import SparkContext
 
 import json
 import time
+import hashlib
 
 print 'loading'
 sc = SparkContext("spark://ec2-54-200-174-121.us-west-2.compute.amazonaws.com:7077", "Simple App")
@@ -17,8 +18,8 @@ json_lay = lay.map(lambda x: json.loads(x)).cache()
 #para_counts = sc.parallelize(counts)
 #print 'tf_counts', para_counts.take(5)
 
-
-email_term_pairs = json_lay.flatMap(lambda x: [(term, x['text']) for term in x['text'].split()])
+m = hashlib.md5()
+email_term_pairs = json_lay.flatMap(lambda x: [(term, hashlib.sha224(x['text']).hexdigest()) for term in x['text'].split()])
 email_term_pairs_distinct = email_term_pairs.distinct()
 email_pairs_grouped = email_term_pairs_distinct.groupBy(lambda x: x[0])
 idf_counts = email_pairs_grouped.flatMap(lambda group: [(x, len(y)) for (x, y) in group])
