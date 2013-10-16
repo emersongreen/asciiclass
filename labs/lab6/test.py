@@ -33,13 +33,15 @@ join_ifidf = tf_out.join(idf_out, numPartitions=500)
 join_map = join_ifidf.map(lambda x: ( (x[0], x[1][0][0], x[1][0][1]*x[1][1] )))
 print 'join', join_map.take(10)
 
-# Sender disambiguation
-
+# Sender disambiguation using regex
 filter_ken = join_map.filter(lambda x: re.match(r'(kenneth|lay).*', x[1]))
 print 'ken', sorted(filter_ken.collect(), key=lambda x: x[2], reverse=True)[:10]
 
-#filter_jeff = join_map.filter(lambda x: re.match(r'(jeff|skilling).*', x[1]))
-#filter_andrew = join_map.filter(lambda x: re.match(r'(andrew|fastow).*', x[1]))
+filter_jeff = join_map.filter(lambda x: re.match(r'(jeff|skilling).*', x[1]))
+print 'jeff', sorted(filter_jeff.collect(), key=lambda x: x[2], reverse=True)[:10]
+
+filter_andrew = join_map.filter(lambda x: re.match(r'(andrew|fastow).*', x[1]))
+print 'andrew', sorted(filter_andrew.collect(), key=lambda x: x[2], reverse=True)[:10]
 
 
 
