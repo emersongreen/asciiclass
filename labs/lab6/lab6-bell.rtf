@@ -1,0 +1,28 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf390
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red217\green11\blue0;\red38\green38\blue38;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs28 \cf0 Brian Bell\
+brianb@mit.edu\
+6.885 Lab 6\
+\
+\cf2 Describe the disambiguation you performed. How did Spark affect (if at all) the choice of technique?\cf0 \
+	I performed a simple regex to look for alternate email addresses belonging to Kenneth Lay, Jeff Skilling and Andrew Fastow. Spark made it really easy to use a filter for regex without an additional map/reduce step, so this made a lot of sense to do given the tool.\
+\cf3 \
+\pard\pardeftab720\sl500\sa300
+\cf3 Reflect on your experience using Spark:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl500
+\ls1\ilvl0\cf2 Compare your experience to using EMR. What things did Spark simplify?\cf3 \
+		Spark made computing IDF a lot easier to comprehend, and made finding senders much easier. Rather than worry about transitions (most of my headaches with MR were centered around passing between steps and figuring out how to find the terms for a single sender), I was finally free to focus more on the transformations themselves, which is more natural.\
+\ls1\ilvl0\cf2 Given Spark, why would you use EMR?\cf3 \
+		I would still use EMR for things like computing Term Frequency, or other computations that are primarily single-step. The code that I wrote to do this in Spark was more complex and harder to debug than the MR implementation.\
+\ls1\ilvl0\cf2 Were there any limitations to using the Spark model?\cf3 \
+		Spark is limited by the one-line nature of its lambda commands, which mean that more complex maps/reduces would have to be broken up into smaller ones, whereas EMR allows you to develop some very complex reasoning into your computations.\
+\ls1\ilvl0\cf2 Describe in a few sentences how Spark would simplify an implementation of pagerank over your answer in Lab 5 using EMR.\cf3 \
+		To simplify page rank, I could calculate both the count and the weight of emails in a single Spark map step. To organize by person would only take a groupBy call rather than another map and reduce. To calculate the score could be done in a single map, rather than a full map and reduce.
+\fs30 \
+}
